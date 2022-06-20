@@ -1,0 +1,538 @@
+{% extends 'base.html' %}
+
+{% block report_content %}
+		<div class="table-responsive mt-3">
+			<table class="table table-bordered table-condensed">
+				 <thead class="table-dark">
+				 	<tr>
+				 		<th><th>
+				 		<th></th>
+				 		<th><th>
+				 		<th>Filter</th>
+				 		<th colspan="9" class="bg-success">RECEIVED DINOMINATION</th>
+				 		<th colspan="9" class="bg-warning">PAID DINOMINATION</th>
+				 	</tr>
+				 	<tr>
+				 		<th class="bg-primary">SL NO.</th>
+				 		<th class="bg-primary">Date</th>
+				 		<th class="bg-primary">PARTICULARS</th>
+				 		<th class="bg-primary">RECEIVED AMOUNT</th>
+				 		<th class="bg-primary">PAID AMOUNT</th>
+				 		<th class="bg-primary">REMARKS</th>
+
+				 		<th class="bg-success">2000</th>
+				 		<th class="bg-success">500</th>
+				 		<th class="bg-success">200</th>
+				 		<th class="bg-success">100</th>
+				 		<th class="bg-success">50</th>
+				 		<th class="bg-success">20</th>
+				 		<th class="bg-success">10</th>
+				 		<th class="bg-success">5</th>
+				 		<th class="bg-success">Coin</th>
+
+				 		<th class="bg-warning">2000</th>
+				 		<th class="bg-warning">500</th>
+				 		<th class="bg-warning">200</th>
+				 		<th class="bg-warning">100</th>
+				 		<th class="bg-warning">50</th>
+				 		<th class="bg-warning">20</th>
+				 		<th class="bg-warning">10</th>
+				 		<th class="bg-warning">5</th>
+				 		<th class="bg-warning">Coin</th>
+				 	</tr>
+				 </thead>
+				 <tbody  id="report_table_list">
+				 	{% for data in report_data %}
+				 		<tr>
+				 			<td>{{ forloop.counter }}</td>
+				 			<td>{{ data.date | date | default_if_none:""}}</td>
+				 			<td>{{ data.particulars | default_if_none:""}}</td>
+				 			<td>{{ data.received_amount | default_if_none:""}}</td>
+				 			<td>{{ data.paid_amount | default_if_none:""}}</td>
+				 			<td>{{ data.remarks | default_if_none:""}}</td>
+
+				 			<td>{{ data.receive_note_2000 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_500 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_200 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_100 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_50 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_20 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_note_10 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_coin_5 | default_if_none:"" }}</td>
+				 			<td>{{ data.receive_coin | default_if_none:"" }}</td>
+
+				 			<td>{{ data.paid_note_2000 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_500 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_200 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_100 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_50 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_20 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_note_10 | default_if_none:"" }}</td>
+				 			<td>{{ data.paid_coin_5v }}</td>
+				 			<td>{{ data.paid_coin | default_if_none:""	 }}</td>
+				 		</tr>
+				 	{% endfor %}
+				 </tbody>
+			</table>
+		</div>
+{% endblock %}
+
+{% block cash_payment %}
+{% if payment_entry %}
+	<div class="container border border-dark mt-3" id="paid_div">
+		<div class="row border border-dark mt-2">
+			<div class="col-12 ">
+				<div class="border border-dark m-2 d-flex justify-content-center">
+					CASH PAYMENT
+				</div>
+			</div>
+		</div>
+
+		<div class="row border border-dark my-2">
+		<form method="POST" id="paid_payment_form">
+			{% csrf_token %}
+	        <div class="row mt-2">
+	        	<div class="col-6">
+	        		<label for="paid_to">PAID TO:</label>
+	        	</div>
+
+	        	<div class="col-6">
+	        		<input type="text" value="" name="paid_to" class="form-control border border-dark" id="paid_to" style="height:25px; box-shadow: none;">
+	        		<span style="color: red;" id="paid_to_span"></span>
+	        	</div>
+	        </div>
+	        <div class="row mt-2">
+	        	<div class="col-6">
+	        		<label for="paid_ammount">PAID AMOUNT:</label>
+	        	</div>
+	        	<div class="col-6">
+	        		<input type="text"  name="paid_ammount" class="form-control border border-dark" id="paid_ammount" style="height: 25px;box-shadow: none;">
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2">
+	        	<div class="offset-6 col-2">
+	        		OUT
+	        	</div>
+	        	<div class="col-2">
+	        		IN
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_2000">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		2000        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_2000" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_2000" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_2000">
+	        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_500">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		500        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_500" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_500" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_500">
+	        		      		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_200">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		200       		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_200" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_200" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_200">
+	        		     		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_100">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		100       		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_100" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_100" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_100">
+	        		     		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_50">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		50        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_50" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_50" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_50">
+	        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_20">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		20        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_20" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_20" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_20">
+	        		    		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_note_10">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		10      		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_10" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_10" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_10">
+	        		        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_coin_5">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		5        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_5" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_5" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_5">
+	        		 		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="p_coin">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		Coin	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_out_coin" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="p_in_coin" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2 border border-dark" id="p_count_coin">
+	        			
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-4 col-3 border border-dark">
+	        		Total	
+	        	</div>
+	        	<div class="offset-1 col border border-dark">
+	        		<input type="text" name="p_total" class="form-control border" id="p_total" value="" style="height:25px; box-shadow: none;width: 100%;">
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2">
+	        	<div class="col-4 ">
+	        		REMARKS
+	        	</div>
+
+	        	<div class="col-8">
+	        		<input type="text" name="p_remarks" value="" class="form-control border border-dark" id="p_remarks" style="height:25px; box-shadow: none;width: 100%;">
+	        		<span style="color: red;" id="p_remarks_span"></span>
+	        	</div>
+	        </div>
+	        <div class="row my-2 mx-1 border border-dark">
+	        	<div class="offset-1 col-3 my-2">
+	        		<input type="submit" name="save" value="SAVE" style="width:100%;"> 
+	        	</div>
+	        	<div class="offset-1 col-3 my-2">
+	        		<input type="submit" name="search" value="SEARCH" style="width:100%;">
+	        		
+	        	</div>
+	        	<div class="offset-1 col-2 my-2">
+	        		<input type="submit" name="exit" value="EXIT" style="width:100%;">	
+	        	</div>
+	        </div>
+	    </form>
+	    </div>
+	</div>
+{% else %}
+	<div class="container border border-dark mt-3" id="receive_div">
+		<div class="row border border-dark mt-2">
+			<div class="col-12 ">
+				<div class="border border-dark m-2 d-flex justify-content-center">
+					CASH RECEIPT
+				</div>
+			</div>
+		</div>
+
+		<div class="row border border-dark my-2">
+		<form method="POST" id="receive_payment_form">
+			{% csrf_token %}
+	        <div class="row mt-2">
+	        	<div class="col-6">
+	        		<label for="rec_from">RECEIVED FROM:</label>
+	        	</div>
+
+	        	<div class="col-6">
+	        		<input type="text" value="" name="receive_from" class="form-control border border-dark" id="rec_from" style="height:25px; box-shadow: none;">
+	        		<span style="color: red;" id="rec_from_span"></span>
+	        	</div>
+	        </div>
+	        <div class="row mt-2">
+	        	<div class="col-6">
+	        		<label for="rec_amm">RECEIVED AMOUNT:</label>
+	        	</div>
+	        	<div class="col-6">
+	        		<input type="text"  name="receive_ammount" class="form-control border border-dark" id="rec_amm" style="height: 25px;box-shadow: none;">
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2">
+	        	<div class="offset-6 col-2">
+	        		IN
+	        	</div>
+	        	<div class="col-2">
+	        		OUT
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_2000">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		2000        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_2000" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_2000" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_2000">
+	        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_500">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		500        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_500" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_500" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_500">
+	        		      		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_200">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		200       		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_200" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_200" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_200">
+	        		     		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_100">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		100       		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_100" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_100" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_100">
+	        		     		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_50">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		50        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_50" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_50" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_50">
+	        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_20">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		20        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_20" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_20" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_20">
+	        		    		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="note_10">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		10      		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_10" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_10" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_10">
+	        		        		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="coin_5">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		5        		
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_5" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_5" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_5">
+	        		 		
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-2 col-2" id="coin">
+	        		        		
+	        	</div>
+	        	<div class="col-2 border border-dark">
+	        		Coin	
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="in_coin" style="box-shadow: none; width: 100%;">
+	        	</div>
+	        	<div class="col-2">
+	        		<input type="text" name="out_coin" style="box-shadow: none; width: 100%;">	
+	        	</div>
+	        	<div class="col-2 border border-dark" id="count_coin">
+	        			
+	        	</div>
+	        </div>
+	        <div class="row mt-2 mx-1">
+	        	<div class="offset-4 col-3 border border-dark">
+	        		Total	
+	        	</div>
+	        	<div class="offset-1 col border border-dark">
+	        		<input type="text" name="total" class="form-control border" id="total" value="" style="height:25px; box-shadow: none;width: 100%;">
+	        	</div>
+	        </div>
+
+	        <div class="row mt-2">
+	        	<div class="col-4 ">
+	        		REMARKS
+	        	</div>
+
+	        	<div class="col-8">
+	        		<input type="text" name="remarks" value="" class="form-control border border-dark" id="remarks" style="height:25px; box-shadow: none;width: 100%;">
+	        		<span style="color: red;" id="remarks_span"></span>
+	        	</div>
+	        </div>
+	        <div class="row my-2 mx-1 border border-dark">
+	        	<div class="offset-1 col-3 my-2">
+	        		<input type="submit" name="save" value="SAVE" style="width:100%;"> 
+	        	</div>
+	        	<div class="offset-1 col-3 my-2">
+	        		<input type="submit" name="search" value="SEARCH" style="width:100%;">
+	        		
+	        	</div>
+	        	<div class="offset-1 col-2 my-2">
+	        		<input type="submit" name="exit" value="EXIT" style="width:100%;">	
+	        	</div>
+	        </div>
+	    </form>
+	    </div>
+	</div>
+{% endif%}
+{% endblock %}
