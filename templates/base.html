@@ -30,28 +30,30 @@
 	</nav>
     
 	<div class="container-fluid" >
-		<div class="row mt-2">
-			<div class=" offset-2 col">
-				<a href="{% url 'receipt_entry' %}">
-					<button id="receipt_entry" class="bg-success text-white p-2 entry-btn" style="border-radius: 8px;">
-						RECEIPT ENTRY
+		{% if user.is_authenticated %}
+			<div class="row mt-2">
+				<div class=" offset-2 col">
+					<a href="{% url 'receipt_entry' %}">
+						<button id="receipt_entry" class="bg-success text-white p-2 entry-btn" style="border-radius: 8px;">
+							RECEIPT ENTRY
+						</button>
+					</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'payment_entry' %}">
+						<button id="payment_entry" class="bg-warning text-dark p-2 entry-btn" style="border-radius: 8px;">
+						PAYMENT ENTRY
 					</button>
-				</a>
+					</a>
+					
+				</div>
+				<div class="col">
+					<button id="search_transaction" class="bg-primary text-white p-2 entry-btn" style="border-radius: 8px;">
+						SEARCH TRANSACTION
+					</button>
+				</div>
 			</div>
-			<div class="col">
-				<a href="{% url 'payment_entry' %}">
-					<button id="payment_entry" class="bg-warning text-dark p-2 entry-btn" style="border-radius: 8px;">
-					PAYMENT ENTRY
-				</button>
-				</a>
-				
-			</div>
-			<div class="col">
-				<button id="search_transaction" class="bg-primary text-white p-2 entry-btn" style="border-radius: 8px;">
-					SEARCH TRANSACTION
-				</button>
-			</div>
-		</div>
+		{% endif %}
 	    <div class="row">
 	    	<div class="col-lg-7" id="report_content">
 		    	{% block report_content %}

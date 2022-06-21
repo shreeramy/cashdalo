@@ -12,7 +12,6 @@ def UserLoginView(request):
 	if request.method == 'POST':
 		email = request.POST.get('email')
 		password = request.POST.get('password')
-		print(email, password)
 		user = authenticate(email=email, password=password)
 		if user is not None:
 			user = login(request, user)
@@ -153,7 +152,6 @@ def PaymentEntryView(request):
 def  LedgerReportPaidPayment(request):
 	if request.user.is_authenticated:
 		if request.method == "POST" and request.is_ajax():
-			print("LedgerReportPaidPayment",request.POST)
 			CashLedgerReport.objects.create(date=datetime.now(),
 				particulars=request.POST.get('paid_to'),
 				received_amount=request.POST.get('receive_ammount'),
