@@ -14,6 +14,20 @@ $(document).ready(function() {
 	var p_count_coin = 0
 	var p_total = 0
 
+	$('select').on('change', function () {
+		if (this.value != "date"){
+			$("#search_key").removeAttr("placeholder")
+		}else{
+			$("#search_key").attr("placeholder", "yyyy-mm-dd")
+		}
+	});
+
+	$("#excel").click(function(){
+		$("#report_table").table2csv({
+  			filename:'table.csv'
+			});
+	});
+
 	if ($("#receive_div").attr("class")){
 		$("input[name=in_2000]").keyup(function() {
 			$("#count_2000").text(Number($("input[name=in_2000]").val()) * 2000)
@@ -246,29 +260,11 @@ $(document).ready(function() {
 		   		$("#rec_from_span").text("Please fill receive from field")
 		   	}
 		   	else if (received_ammount=='') {
-		 		$.ajax({
-		 			type: 'GET',
-		 			url: '/get-note/',
-		 			success: function(note_data){
-		 				if (note_data){
-			 				$("#note_2000").text(note_data.note_2000)
-			 				$("#note_500").text(note_data.note_500)
-			 				$("#note_200").text(note_data.note_200)
-			 				$("#note_100").text(note_data.note_100)
-			 				$("#note_50").text(note_data.note_50)
-			 				$("#note_20").text(note_data.note_20)
-			 				$("#note_10").text(note_data.note_10)
-			 				$("#coin_5").text(note_data.coin_5)
-			 				$("#coin").text(note_data.coin)
-
-			 				Swal.fire({
-							  icon: 'error',
-							  title: 'Oops...',
-							  text: 'PLEASE CHECK AMOUNT!',
-							})
-		 				}
-		 			}
-		 		});
+	 				Swal.fire({
+					  icon: 'error',
+					  title: 'Oops...',
+					  text: 'PLEASE CHECK AMOUNT!',
+					})
 		 	}
 		 	else if (remarks == "") {
 		 		$("#remarks_span").text("Please fill remarks")
@@ -287,14 +283,13 @@ $(document).ready(function() {
 		 			dataType: 'json',
 		 			data: form_data,
 		 			success: function(report_data){
-		 				id=report_data.id
 		 				date = report_data.date
 		 				report_data = report_data.report_data
 		 				if (report_data){
 		 					$("#report_table_list").append(
 		 						`
 		 							<tr>
-		 								<td>${id}</td>
+		 								<td>${report_data.id}</td>
 		 								<td>${date}</td>
 		 								<td>${report_data.particulars || ''}</td>
 		 								<td>${report_data.received_amount || ''}</td>
@@ -320,7 +315,6 @@ $(document).ready(function() {
 		 								<td>${report_data.paid_coin || ''}</td>
 		 							</tr>
 		 						`)
-		 					location.reload(true);
 		 				}
 		 			}
 	  			});
@@ -561,29 +555,11 @@ $(document).ready(function() {
 		   		$("#paid_to_span").text("Please fill paid field")
 		   	}
 		   	else if (paid_ammount=='') {
-		 		$.ajax({
-		 			type: 'GET',
-		 			url: '/get-note/',
-		 			success: function(note_data){
-		 				if (note_data){
-			 				$("#p_note_2000").text(note_data.note_2000)
-			 				$("#p_note_500").text(note_data.note_500)
-			 				$("#p_note_200").text(note_data.note_200)
-			 				$("#p_note_100").text(note_data.note_100)
-			 				$("#p_note_50").text(note_data.note_50)
-			 				$("#p_note_20").text(note_data.note_20)
-			 				$("#p_note_10").text(note_data.note_10)
-			 				$("#p_coin_5").text(note_data.coin_5)
-			 				$("#p_coin").text(note_data.coin)
-
-			 				Swal.fire({
-							  icon: 'error',
-							  title: 'Oops...',
-							  text: 'PLEASE CHECK AMOUNT!',
-							})
-		 				}
-		 			}
-		 		});
+ 				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text: 'PLEASE CHECK AMOUNT!',
+				})
 			 }
 			else if (paid_ammount){
 				$.ajax({
@@ -710,14 +686,13 @@ $(document).ready(function() {
 					 			dataType: 'json',
 					 			data: form_data,
 					 			success: function(report_data){
-					 				id=report_data.id
 					 				date = report_data.date
 					 				report_data = report_data.report_data
 					 				if (report_data){
 					 					$("#report_table_list").append(
 					 						`
 					 							<tr>
-					 								<td>${id}</td>
+					 								<td>${report_data.id}</td>
 					 								<td>${date}</td>
 					 								<td>${report_data.particulars || ''}</td>
 					 								<td>${report_data.received_amount || ''}</td>
@@ -743,7 +718,6 @@ $(document).ready(function() {
 					 								<td>${report_data.paid_coin || ''}</td>
 					 							</tr>
 					 						`)
-					 					location.reload(true); 
 					 				}
 					 			},
 					 			error: function(error){

@@ -12,17 +12,26 @@
         </div>
         
         <form method="POST" class="row">
-            <div class="border border-dark" style="width:50%;margin-left: 10%; border-radius: 6px;height: 320px;">
-                <div class="row form-group mt-5 mx-3">
-                    <label for="email">Email address:</label>
-                    <input type="email" name="email" class="form-control mt-2" id="email">
-                </div>
-                <div class="row form-group mt-3 mx-3 mt-2">
-                    <label for="pwd">Password:</label>
-                    <input type="password" name="password" class="form-control" id="pwd">
-                </div>
+            <div class="border border-dark shadow-lg rounded" style="width:50%;margin-left: 10%; height: 350px;">
                 <div class="row">
-                    <button type="submit" class="btn btn-outline-info my-3 offset-sm-4 col-sm-4">Submit</button>
+                    <div class="offset-md-4 col-md-4 mt-3">LOGIN</div>
+                </div>
+                <div class="row form-group mt-5 mx-3">
+                    <div class="col">
+                        <label for="email">Email address:</label>
+                        <input type="email" name="email" class="form-control mt-2" id="email">
+                    </div>
+                </div>
+                <div class="row form-group mt-3 mx-3">
+                    <div class="col">
+                        <label for="pwd">Password:</label>
+                        <input type="password" name="password" class="form-control" id="pwd">
+                    </div> 
+                </div>
+                <div class="row mt-4">
+                    <div class="offset-md-2 col-md-8">
+                        <button type="submit" class="btn btn-outline-info" style="width: 100%;">Submit</button>
+                    </div>
                 </div>
             </div>
             {% csrf_token %}

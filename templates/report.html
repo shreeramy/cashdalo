@@ -2,16 +2,35 @@
 
 {% block report_content %}
 		<div class="table-responsive mt-3">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-bordered table-condensed" id="report_table">
 				 <thead class="table-dark">
 				 	<tr>
-				 		<th><th>
 				 		<th></th>
-				 		<th><th>
-				 		<th>Filter</th>
-				 		<th colspan="9" class="bg-success">RECEIVED DINOMINATION</th>
-				 		<th colspan="9" class="bg-warning">PAID DINOMINATION</th>
-				 	</tr>
+				 		<th></th>
+				 		<th></th>
+				 		<th></th>
+				 		<th></th>
+				 		<th id="excel"><button class="bg-success text-white">EXCEL</button></th>
+				 		<th class="bg-success" style="border: none;">RECEIVED DINOMINATION</th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+				 		<th class="bg-success" style="border: none;"></th>
+
+				 		<th class="bg-warning" style="border: none;">PAID DINOMINATION</th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+				 		<th class="bg-warning" style="border: none;"></th>
+					</tr>
 				 	<tr>
 				 		<th class="bg-primary">SL NO.</th>
 				 		<th class="bg-primary">Date</th>
@@ -44,8 +63,8 @@
 				 <tbody  id="report_table_list">
 				 	{% for data in report_data %}
 				 		<tr>
-				 			<td>{{ forloop.counter }}</td>
-				 			<td>{{ data.date | date | default_if_none:""}}</td>
+				 			<td>{{ data.id }}</td>
+				 			<td>{{ data.date | default_if_none:""}}</td>
 				 			<td>{{ data.particulars | default_if_none:""}}</td>
 				 			<td>{{ data.received_amount | default_if_none:""}}</td>
 				 			<td>{{ data.paid_amount | default_if_none:""}}</td>
@@ -79,7 +98,7 @@
 
 {% block cash_payment %}
 {% if payment_entry %}
-	<div class="container border border-dark mt-3" id="paid_div">
+	<div class="container border border-dark mt-3" id="paid_div" style="background: aliceblue">
 		<div class="row border border-dark mt-2">
 			<div class="col-12 ">
 				<div class="border border-dark m-2 d-flex justify-content-center">
@@ -121,7 +140,7 @@
 
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_2000">
-	        		        		
+	        		    {{note_data.note_2000}}  		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		2000        		
@@ -138,7 +157,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_500">
-	        		        		
+	        		   {{note_data.note_500}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		500        		
@@ -156,7 +175,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_200">
-	        		        		
+	        		   {{note_data.note_200}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		200       		
@@ -174,7 +193,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_100">
-	        		        		
+	        		    {{note_data.note_100}}   		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		100       		
@@ -192,7 +211,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_50">
-	        		        		
+	        		  {{note_data.note_50}}      		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		50        		
@@ -211,7 +230,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_20">
-	        		        		
+	        		  {{note_data.note_20}}      		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		20        		
@@ -230,7 +249,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_note_10">
-	        		        		
+	        		    {{note_data.note_10}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		10      		
@@ -249,7 +268,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_coin_5">
-	        		        		
+	        		   {{note_data.coin_5}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		5        		
@@ -268,7 +287,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="p_coin">
-	        		        		
+	        		   {{note_data.coin}}    		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		Coin	
@@ -320,8 +339,76 @@
 	    </form>
 	    </div>
 	</div>
+
+
+{% elif search_trans %}
+	<div class="border border-dark mt-3 p-2" style="background: aliceblue">
+		<h4>SEARCH TRANSACTION:</h4>
+		<form method="POST">
+			{% csrf_token %}
+			<div class="row border border-dark mt-2 mx-0">
+				<div class="col mb-2">
+					<label for="search_by" style="font-size: 12px;"><b>SEARCH BY</b></label>
+					<select style="width: 100%; height:30px" name="search_by" id="search_by_select">
+						<option value="empty"></option>
+						<option value="date">Date</option>
+						<option value="particulars">Particulars</option>
+						<option value="remarks">Remarks</option>
+					</select>
+				</div>
+				<div class="col mb-2">
+					<label for="search_key" style="font-size: 12px;"><b>SEARCH KEYWORDS</b></label>
+					<input type="text" value="" name="search_key" id="search_key" style="box-shadow: none; width:100%">
+				</div>
+				<div class="col mt-3 mb-2">
+					<a href="{% url 'search_report' %}" class="text-link">
+						<button id="receipt_entry" class="bg-success text-white" style="border-radius: 6px;
+							height: 38px;width: 90%;">
+							SEARCH
+						</button>
+					</a>
+				</div>
+			</div>
+		</form>
+
+		<div class="border border-dark table-responsive mt-2" style="height:420px">
+			<table class="table table-sm table-hover table-bordered">
+				<thead>
+					<tr class="bg-primary" style="font-size:14px;color: white;">
+						<th>SL NO</th>
+						<th>Date</th>
+						<th>PARTICULARS</th>
+						<th>RECEIVED</th>
+						<th>PAYMENT</th>
+						<th>REMARKS</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if ledger_report %}
+						{% for report in ledger_report %}
+							<tr>
+								<td>{{report.id }}</td>
+								<td>{{report.date }}</td>
+								<td>{{report.particulars}}</td>
+								<td>{{report.received_amount | default_if_none:""}}</td>
+								<td>{{report.paid_amount | default_if_none:""}}</td>
+								<td>{{report.remarks}}</td>
+							</tr>
+						{% endfor %}
+					{% endif %}
+					{% if no_record %}
+						<tr>
+							<td style="color:red" colspan="6"> {{no_record}} </td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
 {% else %}
-	<div class="container border border-dark mt-3" id="receive_div">
+	<div class="container border border-dark mt-3" id="receive_div" style="background: aliceblue">
 		<div class="row border border-dark mt-2">
 			<div class="col-12 ">
 				<div class="border border-dark m-2 d-flex justify-content-center">
@@ -363,7 +450,7 @@
 
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_2000">
-	        		        		
+	        		     {{note_data.note_2000}}  		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		2000        		
@@ -382,7 +469,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_500">
-	        		        		
+	        		   {{note_data.note_500}}       		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		500        		
@@ -401,7 +488,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_200">
-	        		        		
+	        		    {{note_data.note_200}}	
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		200       		
@@ -420,7 +507,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_100">
-	        		        		
+	        			{{note_data.note_100}}      		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		100       		
@@ -439,7 +526,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_50">
-	        		        		
+	        		   {{note_data.note_50}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		50        		
@@ -458,7 +545,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_20">
-	        		        		
+	        		    {{note_data.note_20}}  		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		20        		
@@ -477,7 +564,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="note_10">
-	        		        		
+	        		    {{note_data.note_10}}    		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		10      		
@@ -496,7 +583,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="coin_5">
-	        		        		
+	        		  {{note_data.coin_5}}      		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		5        		
@@ -515,7 +602,7 @@
 	        </div>
 	        <div class="row mt-2 mx-1">
 	        	<div class="offset-2 col-2" id="coin">
-	        		        		
+	        		   {{note_data.coin}}     		
 	        	</div>
 	        	<div class="col-2 border border-dark">
 	        		Coin	
@@ -569,4 +656,5 @@
 	    </div>
 	</div>
 {% endif%}
+
 {% endblock %}

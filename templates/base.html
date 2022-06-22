@@ -8,6 +8,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="{% static 'table2csv.js' %}"></script>
 	<script src="{% static 'ledger.js' %}"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -32,7 +33,7 @@
 	<div class="container-fluid" >
 		{% if user.is_authenticated %}
 			<div class="row mt-2">
-				<div class=" offset-2 col">
+				<div class=" offset-sm-2 col">
 					<a href="{% url 'receipt_entry' %}">
 						<button id="receipt_entry" class="bg-success text-white p-2 entry-btn" style="border-radius: 8px;">
 							RECEIPT ENTRY
@@ -48,9 +49,11 @@
 					
 				</div>
 				<div class="col">
-					<button id="search_transaction" class="bg-primary text-white p-2 entry-btn" style="border-radius: 8px;">
-						SEARCH TRANSACTION
-					</button>
+					<a href="{% url 'search_report' %}">
+						<button id="search_transaction" class="bg-primary text-white p-2 entry-btn" style="border-radius: 8px;">
+							SEARCH TRANSACTION
+						</button>
+					</a>
 				</div>
 			</div>
 		{% endif %}

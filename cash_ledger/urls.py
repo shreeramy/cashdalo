@@ -27,4 +27,5 @@ urlpatterns = [
     path('receipt-entry/', views.ReceiptEntryView, name='receipt_entry'),
     path('payment-entry/', views.PaymentEntryView, name='payment_entry'),
     path('paid-report/', views.LedgerReportPaidPayment, name='paid_report'),
+    path('search-report/', views.SearchLedgerReport, name='search_report'),
 ]

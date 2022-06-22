@@ -115,7 +115,7 @@ def  LedgerReportReceivePayment(request):
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
 			return JsonResponse({"report_data": report_data.values()[0],
-								 "date": str(report_data[0].date.date()),
+								 "date":  report_data[0].date.strftime('%b %d,%Y,%H:%M %P'),
 								 "id": len(report_data)})
 		else:
 			report_data = CashLedgerReport.objects.all()
@@ -136,7 +136,9 @@ def GetAvailableNote(request):
 def ReceiptEntryView(request):
 	if request.user.is_authenticated:
 		report_data = CashLedgerReport.objects.all()
-		return render(request, 'report.html', {"report_data":report_data, 'receipt_entry': True})
+		note_data = NoteAvailable.objects.all().values().first()
+		return render(request, 'report.html', {"report_data":report_data, 'receipt_entry': True,
+											   "note_data": note_data})
 	else:
 		return redirect('/')
 
@@ -144,7 +146,9 @@ def ReceiptEntryView(request):
 def PaymentEntryView(request):
 	if request.user.is_authenticated:
 		report_data = CashLedgerReport.objects.all()
-		return render(request, 'report.html', {"report_data":report_data, 'payment_entry': True})
+		note_data = NoteAvailable.objects.all().values().first()
+		return render(request, 'report.html', {"report_data":report_data, 'payment_entry': True,
+											   "note_data": note_data})
 	else:
 		return redirect('/')
 
@@ -222,11 +226,44 @@ def  LedgerReportPaidPayment(request):
 				note_obj.save()
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
+			# datetime_obj = datetime.strptime(report_data[0].date,'%Y-%m-%d %H:%M:%S.%f%z')
+			print("######",report_data[0].date.strftime('%b %d,%Y,%H:%M %p'))
 			return JsonResponse({"report_data": report_data.values()[0],
-								 "date": str(report_data[0].date.date()),
+								 "date": report_data[0].date.strftime('%b %d,%Y,%H:%M %P'),
 								 "id": len(report_data)})
 		else:
 			report_data = CashLedgerReport.objects.all()
 			return render(request, 'report.html', {"report_data":report_data})
 	else:
 		return redirect('/')
+
+
+def SearchLedgerReport(request):
+	if request.user.is_authenticated:
+		report_data = CashLedgerReport.objects.all()
+		if request.method == "POST":
+			print(request.POST.get("search_by"))
+			if request.POST.get("search_by") == "empty":
+				return render(request, 'report.html', {"report_data":report_data, 'search_trans': True, 
+														   "no_record": "Please select a valid record"})
+			if request.POST.get("search_by") == "date":
+				try:
+					datetime.strptime(request.POST.get("search_key"), '%Y-%m-%d')
+					ledger_report = CashLedgerReport.objects.filter(date__date=request.POST.get("search_key"))
+				except ValueError:
+					return render(request, 'report.html', {"report_data":report_data, 'search_trans': True, 
+														   "no_record": "Incorrect data format, should be YYYY-MM-DD"})
+			if request.POST.get("search_by") == "particulars":
+				ledger_report = CashLedgerReport.objects.filter(particulars=request.POST.get("search_key"))
+			if request.POST.get("search_by") == "remarks":
+				ledger_report = CashLedgerReport.objects.filter(remarks=request.POST.get("search_key"))
+			if ledger_report.count() == 0:
+				no_record = "No record found"
+			else:
+				no_record = False
+			return render(request, 'report.html', {"report_data":report_data, 'search_trans': True, 
+											       'ledger_report':ledger_report, "no_record": no_record})
+		return render(request, 'report.html', {"report_data":report_data, 'search_trans': True})
+	else:
+		return redirect('/')
+
