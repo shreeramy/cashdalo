@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block report_content %}
 		<div class="table-responsive mt-3">
-			<table class="table table-bordered table-condensed" id="report_table">
+			<table class="table table-sm table-bordered table-condensed" id="report_table">
 				 <thead class="table-dark">
 				 	<tr>
 				 		<th></th>
@@ -10,7 +10,7 @@
 				 		<th></th>
 				 		<th></th>
 				 		<th></th>
-				 		<th id="excel"><button class="bg-success text-white">EXCEL</button></th>
+				 		<th id="excel"><a href="{% url 'excel_report' %}"><button class="bg-success text-white">EXCEL</button></a></th>
 				 		<th class="bg-success" style="border: none;">RECEIVED DINOMINATION</th>
 				 		<th class="bg-success" style="border: none;"></th>
 				 		<th class="bg-success" style="border: none;"></th>
@@ -62,7 +62,12 @@
 				 </thead>
 				 <tbody  id="report_table_list">
 				 	{% for data in report_data %}
-				 		<tr>
+				 	{% if data.received_amount %}
+				 		{% trans "bg-success" as bg_color %}
+				 	{%else%}
+				 		{% trans "bg-warning" as bg_color %}
+				 	{% endif %}
+				 		<tr class="{{bg_color}}">
 				 			<td>{{ data.id }}</td>
 				 			<td>{{ data.date | default_if_none:""}}</td>
 				 			<td>{{ data.particulars | default_if_none:""}}</td>
@@ -88,7 +93,7 @@
 				 			<td>{{ data.paid_note_20 | default_if_none:"" }}</td>
 				 			<td>{{ data.paid_note_10 | default_if_none:"" }}</td>
 				 			<td>{{ data.paid_coin_5v }}</td>
-				 			<td>{{ data.paid_coin | default_if_none:""	 }}</td>
+				 			<td>{{ data.paid_coin | default_if_none:"" }}</td>
 				 		</tr>
 				 	{% endfor %}
 				 </tbody>
@@ -97,8 +102,8 @@
 {% endblock %}
 
 {% block cash_payment %}
-{% if payment_entry %}
-	<div class="container border border-dark mt-3" id="paid_div" style="background: aliceblue">
+{#% if payment_entry %#}
+	<div class="container border border-dark mt-3" id="paid_div" style="background: aliceblue;">
 		<div class="row border border-dark mt-2">
 			<div class="col-12 ">
 				<div class="border border-dark m-2 d-flex justify-content-center">
@@ -333,7 +338,9 @@
 	        		
 	        	</div>
 	        	<div class="offset-1 col-2 my-2">
-	        		<input type="submit" name="exit" value="EXIT" style="width:100%;">	
+	        		<a href="{% url 'report' %}">
+	        			<input type="button" name="search" value="EXIT" style="width:100%;">
+	        		</a>	
 	        	</div>
 	        </div>
 	    </form>
@@ -341,10 +348,10 @@
 	</div>
 
 
-{% elif search_trans %}
-	<div class="border border-dark mt-3 p-2" style="background: aliceblue">
+{#% elif search_trans %#}
+	<div class="border border-dark mt-3 p-2" id="search_trans_div" style="background: aliceblue;">
 		<h4>SEARCH TRANSACTION:</h4>
-		<form method="POST">
+		<form method="POST" id="search_trans_form">
 			{% csrf_token %}
 			<div class="row border border-dark mt-2 mx-0">
 				<div class="col mb-2">
@@ -361,12 +368,7 @@
 					<input type="text" value="" name="search_key" id="search_key" style="box-shadow: none; width:100%">
 				</div>
 				<div class="col mt-3 mb-2">
-					<a href="{% url 'search_report' %}" class="text-link">
-						<button id="receipt_entry" class="bg-success text-white" style="border-radius: 6px;
-							height: 38px;width: 90%;">
-							SEARCH
-						</button>
-					</a>
+					<input type="submit" name="search", value="SEARCH" class="bg-success text-white" style="border-radius: 6px;height: 38px;width: 90%;">
 				</div>
 			</div>
 		</form>
@@ -383,32 +385,16 @@
 						<th>REMARKS</th>
 					</tr>
 				</thead>
-				<tbody>
-					{% if ledger_report %}
-						{% for report in ledger_report %}
-							<tr>
-								<td>{{report.id }}</td>
-								<td>{{report.date }}</td>
-								<td>{{report.particulars}}</td>
-								<td>{{report.received_amount | default_if_none:""}}</td>
-								<td>{{report.paid_amount | default_if_none:""}}</td>
-								<td>{{report.remarks}}</td>
-							</tr>
-						{% endfor %}
-					{% endif %}
-					{% if no_record %}
-						<tr>
-							<td style="color:red" colspan="6"> {{no_record}} </td>
-						</tr>
-					{% endif %}
+				<tbody id="search_report_list">
+					
 				</tbody>
 			</table>
 		</div>
 	</div>
 
 
-{% else %}
-	<div class="container border border-dark mt-3" id="receive_div" style="background: aliceblue">
+{#% else %#}
+	<div class="container border border-dark mt-3" id="receive_div" style="background: aliceblue;">
 		<div class="row border border-dark mt-2">
 			<div class="col-12 ">
 				<div class="border border-dark m-2 d-flex justify-content-center">
@@ -649,12 +635,14 @@
 	        		
 	        	</div>
 	        	<div class="offset-1 col-2 my-2">
-	        		<input type="submit" name="exit" value="EXIT" style="width:100%;">	
+	        		<a href="{% url 'report' %}">
+		        		<input type="button" name="exit" value="EXIT" style="width:100%;">
+		        	</a>
 	        	</div>
 	        </div>
 	    </form>
 	    </div>
 	</div>
-{% endif%}
+{#% endif%#}
 
 {% endblock %}
