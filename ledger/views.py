@@ -228,14 +228,14 @@ def SearchLedgerReport(request):
 			if request.POST.get("search_by") == "date":
 				try:
 					datetime.strptime(request.POST.get("search_key"), '%Y-%m-%d')
-					ledger_report = CashLedgerReport.objects.filter(date__date=request.POST.get("search_key")).values()
+					ledger_report = CashLedgerReport.objects.filter(date__date=request.POST.get("search_key")).order_by('-date').values()
 				except ValueError:
 					return JsonResponse({'search_trans': True, 
 										 "no_record": "Incorrect date format, should be YYYY-MM-DD"})
 			if request.POST.get("search_by") == "particulars":
-				ledger_report = CashLedgerReport.objects.filter(particulars=request.POST.get("search_key")).values()
+				ledger_report = CashLedgerReport.objects.filter(particulars=request.POST.get("search_key")).order_by('-date').values()
 			if request.POST.get("search_by") == "remarks":
-				ledger_report = CashLedgerReport.objects.filter(remarks=request.POST.get("search_key")).values()
+				ledger_report = CashLedgerReport.objects.filter(remarks=request.POST.get("search_key")).order_by('-date').values()
 			if ledger_report.count() == 0:
 				no_record = "No record found"
 			else:
