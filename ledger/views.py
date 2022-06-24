@@ -114,14 +114,11 @@ def  LedgerReportReceivePayment(request):
 				note_obj.save()
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
-			note_data = NoteAvailable.objects.all().values().first()
 			return JsonResponse({"report_data": report_data.values()[0],
-								 "date":  report_data[0].date.strftime('%B %d,%Y,%I:%M %P'),
-								 "note_data": note_data})
+								 "date":  report_data[0].date.strftime('%B %d,%Y,%I:%M %P')})
 		else:
-			report_data = CashLedgerReport.objects.all()
-			note_data = NoteAvailable.objects.all().values().first()
-			return render(request, 'report.html', {"report_data":report_data, "note_data": note_data})
+			report_data = CashLedgerReport.objects.all().order_by('-date')
+			return render(request, 'report.html', {"report_data":report_data})
 	else:
 		return redirect('/')
 
@@ -130,6 +127,11 @@ def GetAvailableNote(request):
 	if request.user.is_authenticated:
 		if request.is_ajax():
 			note_data = NoteAvailable.objects.all().values().first()
+			notes = [2000, 500, 200, 100, 50, 20, 10, 5, 1]
+			total_amount = 0
+			for i, note in enumerate(list(note_data.values())[1:]):
+				total_amount += notes[i] * int(note)
+			note_data['total_amount'] = total_amount
 			return JsonResponse(note_data)
 	else:
 		return redirect('/')
@@ -207,22 +209,18 @@ def  LedgerReportPaidPayment(request):
 				note_obj.save()
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
-			note_data = NoteAvailable.objects.all().values().first()
 			return JsonResponse({"report_data": report_data.values()[0],
-								 "date": report_data[0].date.strftime('%B %d,%Y,%I:%M %P'),
-								 "note_data": note_data})
+								 "date": report_data[0].date.strftime('%B %d,%Y,%I:%M %P')})
 		else:
-			report_data = CashLedgerReport.objects.all()
-			note_data = NoteAvailable.objects.all().values().first()
-			return render(request, 'report.html', {"report_data":report_data, 'payment_entry': True,
-											       "note_data": note_data})
+			report_data = CashLedgerReport.objects.all().order_by('-date')
+			return render(request, 'report.html', {"report_data":report_data})
 	else:
 		return redirect('/')
 
 
 def SearchLedgerReport(request):
 	if request.user.is_authenticated:
-		report_data = CashLedgerReport.objects.all()
+		report_data = CashLedgerReport.objects.all().order_by('-date')
 		if request.method == "POST" or request.is_ajax():
 			if request.POST.get("search_by") == "empty":
 				return render(request, 'report.html', {'search_trans': True, 
@@ -246,7 +244,7 @@ def SearchLedgerReport(request):
 			for report in ledger_report:
 				report['date'] = report['date'].strftime('%B %d,%Y,%I:%M %P')
 			return JsonResponse({'ledger_report': ledger_report, "no_record": no_record})
-		return render(request, 'report.html', {"report_data":report_data, 'search_trans': True})
+		return render(request, 'report.html', {"report_data":report_data})
 	else:
 		return redirect('/')
 

@@ -30,6 +30,8 @@ $(document).ready(function() {
 		$("#paid_div").hide();
 		$("#search_trans_div").hide(); 
 		$("#receive_div").show();
+		$("input[type='text']").val('');
+		$(".div-text").empty();
 		$.ajax({
  			type: 'GET',
  			url: '/get-note/',
@@ -44,6 +46,7 @@ $(document).ready(function() {
  					$("#note_10").text(note_data.note_10)
  					$("#coin_5").text(note_data.coin_5)
  					$("#coin").text(note_data.coin)
+ 					$("#total_avail_amount").text(note_data.total_amount)
  				}
  			}
 		});
@@ -52,7 +55,9 @@ $(document).ready(function() {
 		$("#report_content").attr("class", "col-lg-7")
 		$("#receive_div").hide();
 		$("#search_trans_div").hide();
-		$("#paid_div").show(); 
+		$("#paid_div").show();
+		$("input[type='text']").val('');
+		$(".div-text").empty();
 		$.ajax({
  			type: 'GET',
  			url: '/get-note/',
@@ -67,6 +72,7 @@ $(document).ready(function() {
  					$("#p_note_10").text(note_data.note_10)
  					$("#p_coin_5").text(note_data.coin_5)
  					$("#p_coin").text(note_data.coin)
+ 					$("#p_total_avail_amount").text(note_data.total_amount)
  				}
  			}
 		}); 
@@ -335,7 +341,7 @@ $(document).ready(function() {
 		 			success: function(result){
 		 				date = result.date
 		 				if (result.report_data){
-		 					$("#report_table_list").append(
+		 					$("#report_table_list").prepend(
 		 						`
 	 							<tr class="bg-success">
 	 								<td>${result.report_data.id}</td>
@@ -364,17 +370,15 @@ $(document).ready(function() {
 	 								<td>${result.report_data.paid_coin || ''}</td>
 	 							</tr>
 		 						`)
-		 				}
-		 				if (result.note_data){
-		 					$("#note_2000").text(result.note_data.note_2000);
-		 					$("#note_500").text(result.note_data.note_500)
-		 					$("#note_200").text(result.note_data.note_200)
-		 					$("#note_100").text(result.note_data.note_100)
-		 					$("#note_50").text(result.note_data.note_50)
-		 					$("#note_20").text(result.note_data.note_20)
-		 					$("#note_10").text(result.note_data.note_10)
-		 					$("#coin_5").text(result.note_data.coin_5)
-		 					$("#coin").text(result.note_data.coin)
+		 					$("#report_content").attr("class", "col-lg-12")
+							$("#receive_div").hide();
+							Swal.fire({
+								position: 'top-end',
+								icon: 'success',
+								title: 'Your entry has been saved',
+								showConfirmButton: false,
+								timer: 1500
+							});
 		 				}
 		 			}
 	  			});
@@ -748,7 +752,7 @@ $(document).ready(function() {
 					 			success: function(result){
 					 				date = result.date
 					 				if (result.report_data){
-					 					$("#report_table_list").append(
+					 					$("#report_table_list").prepend(
 					 						`
 				 							<tr class="bg-warning">
 				 								<td>${result.report_data.id}</td>
@@ -777,17 +781,15 @@ $(document).ready(function() {
 				 								<td>${result.report_data.paid_coin || ''}</td>
 				 							</tr>
 					 						`)
-					 				}
-					 				if (result.note_data){
-					 					$("#p_note_2000").text(result.note_data.note_2000);
-					 					$("#p_note_500").text(result.note_data.note_500)
-					 					$("#p_note_200").text(result.note_data.note_200)
-					 					$("#p_note_100").text(result.note_data.note_100)
-					 					$("#p_note_50").text(result.note_data.note_50)
-					 					$("#p_note_20").text(result.note_data.note_20)
-					 					$("#p_note_10").text(result.note_data.note_10)
-					 					$("#p_coin_5").text(result.note_data.coin_5)
-					 					$("#p_coin").text(result.note_data.coin)
+					 					$("#report_content").attr("class", "col-lg-12")
+										$("#paid_div").hide();
+										Swal.fire({
+											position: 'top-end',
+											icon: 'success',
+											title: 'Your entry has been saved',
+											showConfirmButton: false,
+											timer: 1500
+										});
 					 				}
 					 			},
 					 			error: function(error){
