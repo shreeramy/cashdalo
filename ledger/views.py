@@ -18,7 +18,7 @@ def UserLoginView(request):
 			user = login(request, user)
 			return redirect('/report/')
 		else:
-			messages.info(request, "you are not superuser")
+			messages.info(request, "Invalid Credentials you are not 'SUPERUSER'")
 			return redirect('/')
 	elif request.user.is_authenticated:
 		return redirect('/report/')
@@ -111,13 +111,13 @@ def  LedgerReportReceivePayment(request):
 					note_obj.coin_5 -= int(request.POST.get('out_5'))
 				if request.POST.get('out_coin'):
 					note_obj.coin -= int(request.POST.get('out_coin'))
-
 				note_obj.save()
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
+			note_data = NoteAvailable.objects.all().values().first()
 			return JsonResponse({"report_data": report_data.values()[0],
 								 "date":  report_data[0].date.strftime('%B %d,%Y,%I:%M %P'),
-								 "id": len(report_data)})
+								 "note_data": note_data})
 		else:
 			report_data = CashLedgerReport.objects.all()
 			note_data = NoteAvailable.objects.all().values().first()
@@ -204,13 +204,13 @@ def  LedgerReportPaidPayment(request):
 					note_obj.coin_5 += int(request.POST.get('p_in_5'))
 				if request.POST.get('p_in_coin'):
 					note_obj.coin += int(request.POST.get('p_in_coin'))
-
 				note_obj.save()
 
 			report_data = CashLedgerReport.objects.all().order_by('-date')
+			note_data = NoteAvailable.objects.all().values().first()
 			return JsonResponse({"report_data": report_data.values()[0],
 								 "date": report_data[0].date.strftime('%B %d,%Y,%I:%M %P'),
-								 "id": len(report_data)})
+								 "note_data": note_data})
 		else:
 			report_data = CashLedgerReport.objects.all()
 			note_data = NoteAvailable.objects.all().values().first()
@@ -245,7 +245,7 @@ def SearchLedgerReport(request):
 			ledger_report = list(ledger_report)
 			for report in ledger_report:
 				report['date'] = report['date'].strftime('%B %d,%Y,%I:%M %P')
-			return JsonResponse({'search_trans': True, 'ledger_report': ledger_report, "no_record": no_record})
+			return JsonResponse({'ledger_report': ledger_report, "no_record": no_record})
 		return render(request, 'report.html', {"report_data":report_data, 'search_trans': True})
 	else:
 		return redirect('/')
@@ -266,7 +266,7 @@ def ExportToExcelReport(request):
 			reports.pop(1)
 			reports.insert(1, report[1].strftime('%B %d,%Y,%I:%M %P'))
 			report_lists.append(reports)
-		workbook = xlsxwriter.Workbook('worksheet_file.xlsx')
+		workbook = xlsxwriter.Workbook('report_file.xlsx')
 		green_color = workbook.add_format(properties={'font_color': 'green'})
 		red_color = workbook.add_format(properties={'font_color': 'red'})
 		bg_note = workbook.add_format(properties={'bold': True, 'font_color': '#00C7CE'})
@@ -310,7 +310,7 @@ def ExportToExcelReport(request):
 					worksheet.write(row_num, col_num, col_data)
 
 		workbook.close()
-		with open("worksheet_file.xlsx", "rb") as excel:
+		with open("report_file.xlsx", "rb") as excel:
 			data = excel.read()
 		response = HttpResponse(data, content_type='application/ms-excel')  
 		response['Content-Disposition'] = 'attachment; filename="report_file.xlsx"'

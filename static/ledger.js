@@ -25,7 +25,7 @@ $(document).ready(function() {
 	$("#paid_div").hide();
 	$("#search_trans_div").hide(); 
 
-	$('#receipt_entry').click(function(){console.log("receipt_entry")
+	$('#receipt_entry').click(function(){
 		$("#report_content").attr("class", "col-lg-7")
 		$("#paid_div").hide();
 		$("#search_trans_div").hide(); 
@@ -48,7 +48,7 @@ $(document).ready(function() {
  			}
 		});
 	});
-	$('#payment_entry').click(function(){console.log("payment_entry")
+	$('#payment_entry').click(function(){
 		$("#report_content").attr("class", "col-lg-7")
 		$("#receive_div").hide();
 		$("#search_trans_div").hide();
@@ -71,7 +71,7 @@ $(document).ready(function() {
  			}
 		}); 
 	});
-	$('#search_transaction').click(function(){console.log("search_transaction")
+	$('.search_transaction').click(function(){
 		$("#report_content").attr("class", "col-lg-7")
 		$("#receive_div").hide();
 		$("#paid_div").hide();
@@ -332,39 +332,49 @@ $(document).ready(function() {
 		 			url: '/report/',
 		 			dataType: 'json',
 		 			data: form_data,
-		 			success: function(report_data){
-		 				date = report_data.date
-		 				report_data = report_data.report_data
-		 				if (report_data){
+		 			success: function(result){
+		 				date = result.date
+		 				if (result.report_data){
 		 					$("#report_table_list").append(
 		 						`
-		 							<tr>
-		 								<td>${report_data.id}</td>
-		 								<td>${date}</td>
-		 								<td>${report_data.particulars || ''}</td>
-		 								<td>${report_data.received_amount || ''}</td>
-		 								<td>${report_data.paid_amount || ''}</td>
-		 								<td>${report_data.remarks || ''}</td>
-		 								<td>${report_data.receive_note_2000 || ''}</td>
-		 								<td>${report_data.receive_note_500 || ''}</td>
-		 								<td>${report_data.receive_note_200 || ''}</td>
-		 								<td>${report_data.receive_note_100 || ''}</td>
-		 								<td>${report_data.receive_note_50 || ''}</td>
-		 								<td>${report_data.receive_note_20 || ''}</td>
-		 								<td>${report_data.receive_note_10 || ''}</td>
-		 								<td>${report_data.receive_coin_5 || ''}</td>
-		 								<td>${report_data.receive_coin || ''}</td>
-		 								<td>${report_data.paid_note_2000 || ''}</td>
-		 								<td>${report_data.paid_note_500 || ''}</td>
-		 								<td>${report_data.paid_note_200 || ''}</td>
-		 								<td>${report_data.paid_note_100 || ''}</td>
-		 								<td>${report_data.paid_note_50 || ''}</td>
-		 								<td>${report_data.paid_note_20 || ''}</td>
-		 								<td>${report_data.paid_note_10 || ''}</td>
-		 								<td>${report_data.paid_coin_5 || ''}</td>
-		 								<td>${report_data.paid_coin || ''}</td>
-		 							</tr>
+	 							<tr class="bg-success">
+	 								<td>${result.report_data.id}</td>
+	 								<td>${date}</td>
+	 								<td>${result.report_data.particulars || ''}</td>
+	 								<td>${result.report_data.received_amount || ''}</td>
+	 								<td>${result.report_data.paid_amount || ''}</td>
+	 								<td>${result.report_data.remarks || ''}</td>
+	 								<td>${result.report_data.receive_note_2000 || ''}</td>
+	 								<td>${result.report_data.receive_note_500 || ''}</td>
+	 								<td>${result.report_data.receive_note_200 || ''}</td>
+	 								<td>${result.report_data.receive_note_100 || ''}</td>
+	 								<td>${result.report_data.receive_note_50 || ''}</td>
+	 								<td>${result.report_data.receive_note_20 || ''}</td>
+	 								<td>${result.report_data.receive_note_10 || ''}</td>
+	 								<td>${result.report_data.receive_coin_5 || ''}</td>
+	 								<td>${result.report_data.receive_coin || ''}</td>
+	 								<td>${result.report_data.paid_note_2000 || ''}</td>
+	 								<td>${result.report_data.paid_note_500 || ''}</td>
+	 								<td>${result.report_data.paid_note_200 || ''}</td>
+	 								<td>${result.report_data.paid_note_100 || ''}</td>
+	 								<td>${result.report_data.paid_note_50 || ''}</td>
+	 								<td>${result.report_data.paid_note_20 || ''}</td>
+	 								<td>${result.report_data.paid_note_10 || ''}</td>
+	 								<td>${result.report_data.paid_coin_5 || ''}</td>
+	 								<td>${result.report_data.paid_coin || ''}</td>
+	 							</tr>
 		 						`)
+		 				}
+		 				if (result.note_data){
+		 					$("#note_2000").text(result.note_data.note_2000);
+		 					$("#note_500").text(result.note_data.note_500)
+		 					$("#note_200").text(result.note_data.note_200)
+		 					$("#note_100").text(result.note_data.note_100)
+		 					$("#note_50").text(result.note_data.note_50)
+		 					$("#note_20").text(result.note_data.note_20)
+		 					$("#note_10").text(result.note_data.note_10)
+		 					$("#coin_5").text(result.note_data.coin_5)
+		 					$("#coin").text(result.note_data.coin)
 		 				}
 		 			}
 	  			});
@@ -735,39 +745,49 @@ $(document).ready(function() {
 					 			url: '/paid-report/',
 					 			dataType: 'json',
 					 			data: form_data,
-					 			success: function(report_data){
-					 				date = report_data.date
-					 				report_data = report_data.report_data
-					 				if (report_data){
+					 			success: function(result){
+					 				date = result.date
+					 				if (result.report_data){
 					 					$("#report_table_list").append(
 					 						`
-					 							<tr>
-					 								<td>${report_data.id}</td>
-					 								<td>${date}</td>
-					 								<td>${report_data.particulars || ''}</td>
-					 								<td>${report_data.received_amount || ''}</td>
-					 								<td>${report_data.paid_amount || ''}</td>
-					 								<td>${report_data.remarks || ''}</td>
-					 								<td>${report_data.receive_note_2000 || ''}</td>
-					 								<td>${report_data.receive_note_500 || ''}</td>
-					 								<td>${report_data.receive_note_200 || ''}</td>
-					 								<td>${report_data.receive_note_100 || ''}</td>
-					 								<td>${report_data.receive_note_50 || ''}</td>
-					 								<td>${report_data.receive_note_20 || ''}</td>
-					 								<td>${report_data.receive_note_10 || ''}</td>
-					 								<td>${report_data.receive_coin_5 || ''}</td>
-					 								<td>${report_data.receive_coin || ''}</td>
-					 								<td>${report_data.paid_note_2000 || ''}</td>
-					 								<td>${report_data.paid_note_500 || ''}</td>
-					 								<td>${report_data.paid_note_200 || ''}</td>
-					 								<td>${report_data.paid_note_100 || ''}</td>
-					 								<td>${report_data.paid_note_50 || ''}</td>
-					 								<td>${report_data.paid_note_20 || ''}</td>
-					 								<td>${report_data.paid_note_10 || ''}</td>
-					 								<td>${report_data.paid_coin_5 || ''}</td>
-					 								<td>${report_data.paid_coin || ''}</td>
-					 							</tr>
+				 							<tr class="bg-warning">
+				 								<td>${result.report_data.id}</td>
+				 								<td>${date}</td>
+				 								<td>${result.report_data.particulars || ''}</td>
+				 								<td>${result.report_data.received_amount || ''}</td>
+				 								<td>${result.report_data.paid_amount || ''}</td>
+				 								<td>${result.report_data.remarks || ''}</td>
+				 								<td>${result.report_data.receive_note_2000 || ''}</td>
+				 								<td>${result.report_data.receive_note_500 || ''}</td>
+				 								<td>${result.report_data.receive_note_200 || ''}</td>
+				 								<td>${result.report_data.receive_note_100 || ''}</td>
+				 								<td>${result.report_data.receive_note_50 || ''}</td>
+				 								<td>${result.report_data.receive_note_20 || ''}</td>
+				 								<td>${result.report_data.receive_note_10 || ''}</td>
+				 								<td>${result.report_data.receive_coin_5 || ''}</td>
+				 								<td>${result.report_data.receive_coin || ''}</td>
+				 								<td>${result.report_data.paid_note_2000 || ''}</td>
+				 								<td>${result.report_data.paid_note_500 || ''}</td>
+				 								<td>${result.report_data.paid_note_200 || ''}</td>
+				 								<td>${result.report_data.paid_note_100 || ''}</td>
+				 								<td>${result.report_data.paid_note_50 || ''}</td>
+				 								<td>${result.report_data.paid_note_20 || ''}</td>
+				 								<td>${result.report_data.paid_note_10 || ''}</td>
+				 								<td>${result.report_data.paid_coin_5 || ''}</td>
+				 								<td>${result.report_data.paid_coin || ''}</td>
+				 							</tr>
 					 						`)
+					 				}
+					 				if (result.note_data){
+					 					$("#p_note_2000").text(result.note_data.note_2000);
+					 					$("#p_note_500").text(result.note_data.note_500)
+					 					$("#p_note_200").text(result.note_data.note_200)
+					 					$("#p_note_100").text(result.note_data.note_100)
+					 					$("#p_note_50").text(result.note_data.note_50)
+					 					$("#p_note_20").text(result.note_data.note_20)
+					 					$("#p_note_10").text(result.note_data.note_10)
+					 					$("#p_coin_5").text(result.note_data.coin_5)
+					 					$("#p_coin").text(result.note_data.coin)
 					 				}
 					 			},
 					 			error: function(error){
@@ -797,9 +817,14 @@ $(document).ready(function() {
  			success: function(result){
  				$("#search_report_list tr").remove()
  				if (result.ledger_report){
-					for (let report in result.ledger_report){console.log(report)
+					for (let report in result.ledger_report){
+						if (result.ledger_report[report].received_amount){
+							var color = "bg-success"
+						}else{
+							var color = "bg-warning"
+						}
 						$("#search_report_list").append(`
-							<tr>
+							<tr class="${color}">
 								<td>${result.ledger_report[report].id }</td>
 								<td>${result.ledger_report[report].date }</td>
 								<td>${result.ledger_report[report].particulars}</td>

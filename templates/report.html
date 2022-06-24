@@ -62,11 +62,11 @@
 				 </thead>
 				 <tbody  id="report_table_list">
 				 	{% for data in report_data %}
-				 	{% if data.received_amount %}
-				 		{% trans "bg-success" as bg_color %}
-				 	{%else%}
-				 		{% trans "bg-warning" as bg_color %}
-				 	{% endif %}
+					 	{% if data.received_amount %}
+					 		{% trans "bg-success" as bg_color %}
+					 	{%else%}
+					 		{% trans "bg-warning" as bg_color %}
+					 	{% endif %}
 				 		<tr class="{{bg_color}}">
 				 			<td>{{ data.id }}</td>
 				 			<td>{{ data.date | default_if_none:""}}</td>
@@ -334,7 +334,7 @@
 	        		<input type="submit" name="save" value="SAVE" style="width:100%;"> 
 	        	</div>
 	        	<div class="offset-1 col-3 my-2">
-	        		<input type="submit" name="search" value="SEARCH" style="width:100%;">
+	        		<input type="button" class="search_transaction" name="search" value="SEARCH" style="width:100%;">
 	        		
 	        	</div>
 	        	<div class="offset-1 col-2 my-2">
@@ -631,7 +631,7 @@
 	        		<input type="submit" name="save" value="SAVE" style="width:100%;"> 
 	        	</div>
 	        	<div class="offset-1 col-3 my-2">
-	        		<input type="submit" name="search" value="SEARCH" style="width:100%;">
+	        		<input type="button" class="search_transaction" name="search" value="SEARCH" style="width:100%;">
 	        		
 	        	</div>
 	        	<div class="offset-1 col-2 my-2">
