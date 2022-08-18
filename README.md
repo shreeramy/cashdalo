@@ -1,5 +1,5 @@
 # cashdalo
-CashDalo
+CashDalo (Code is on dev branch)
 
 It is small web based application which allow to record the cash transactions. It has option to record the payment you give and receive in cash.
 
